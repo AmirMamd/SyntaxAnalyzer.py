@@ -1,0 +1,108 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vis-network@latest/styles/vis-network.css" type="text/css" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vis-network@latest/dist/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 500px;
+            height: 500px;
+            background-color: #ffffff;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"color": "Red", "id": "exp", "label": "exp", "shape": "dot"}, {"id": "term", "label": "term", "shape": "dot"}, {"id": "exp\u0027", "label": "exp\u0027", "shape": "dot"}, {"id": "factor", "label": "factor", "shape": "dot"}, {"id": "term\u0027", "label": "term\u0027", "shape": "dot"}, {"id": 0, "label": "Number", "shape": "dot"}, {"id": 1, "label": "#", "shape": "dot"}, {"id": "addop", "label": "addop", "shape": "dot"}, {"id": 3, "label": "term", "shape": "dot"}, {"id": 5, "label": "exp\u0027", "shape": "dot"}, {"id": 6, "label": "+", "shape": "dot"}, {"id": 8, "label": "factor", "shape": "dot"}, {"id": 10, "label": "term\u0027", "shape": "dot"}, {"id": 11, "label": "(", "shape": "dot"}, {"id": 13, "label": "exp", "shape": "dot"}, {"id": 14, "label": ")", "shape": "dot"}, {"id": 16, "label": "term", "shape": "dot"}, {"id": 18, "label": "exp\u0027", "shape": "dot"}, {"id": 20, "label": "factor", "shape": "dot"}, {"id": 22, "label": "term\u0027", "shape": "dot"}, {"id": 23, "label": "(", "shape": "dot"}, {"id": 25, "label": "exp", "shape": "dot"}, {"id": 26, "label": ")", "shape": "dot"}, {"id": 28, "label": "term", "shape": "dot"}, {"id": 30, "label": "exp\u0027", "shape": "dot"}, {"id": 32, "label": "factor", "shape": "dot"}, {"id": 34, "label": "term\u0027", "shape": "dot"}, {"id": 35, "label": "Number", "shape": "dot"}, {"id": 36, "label": "#", "shape": "dot"}, {"id": 38, "label": "addop", "shape": "dot"}, {"id": 40, "label": "term", "shape": "dot"}, {"id": 42, "label": "exp\u0027", "shape": "dot"}, {"id": 43, "label": "+", "shape": "dot"}, {"id": 45, "label": "factor", "shape": "dot"}, {"id": 47, "label": "term\u0027", "shape": "dot"}, {"id": 48, "label": "Number", "shape": "dot"}, {"id": "mullop", "label": "mullop", "shape": "dot"}, {"id": 50, "label": "factor", "shape": "dot"}, {"id": 52, "label": "term\u0027", "shape": "dot"}, {"id": 53, "label": "*", "shape": "dot"}, {"id": 54, "label": "Number", "shape": "dot"}, {"id": 55, "label": "#", "shape": "dot"}, {"id": 56, "label": "#", "shape": "dot"}, {"id": 57, "label": "#", "shape": "dot"}, {"id": 59, "label": "addop", "shape": "dot"}, {"id": 61, "label": "term", "shape": "dot"}, {"id": 63, "label": "exp\u0027", "shape": "dot"}, {"id": 64, "label": "+", "shape": "dot"}, {"id": 66, "label": "factor", "shape": "dot"}, {"id": 68, "label": "term\u0027", "shape": "dot"}, {"id": 69, "label": "Number", "shape": "dot"}, {"id": 70, "label": "#", "shape": "dot"}, {"id": 71, "label": "#", "shape": "dot"}, {"id": 72, "label": "#", "shape": "dot"}, {"id": 74, "label": "addop", "shape": "dot"}, {"id": 76, "label": "term", "shape": "dot"}, {"id": 78, "label": "exp\u0027", "shape": "dot"}, {"id": 79, "label": "-", "shape": "dot"}, {"id": 81, "label": "factor", "shape": "dot"}, {"id": 83, "label": "term\u0027", "shape": "dot"}, {"id": 84, "label": "Number", "shape": "dot"}, {"id": 85, "label": "#", "shape": "dot"}, {"id": 86, "label": "#", "shape": "dot"}]);
+        edges = new vis.DataSet([{"arrows": "to", "from": "exp", "to": "term"}, {"arrows": "to", "from": "exp", "to": "exp\u0027"}, {"arrows": "to", "from": "term", "to": "factor"}, {"arrows": "to", "from": "term", "to": "term\u0027"}, {"arrows": "to", "from": "factor", "to": 0}, {"arrows": "to", "from": "term\u0027", "to": 1}, {"arrows": "to", "from": "exp\u0027", "to": "addop"}, {"arrows": "to", "from": "exp\u0027", "to": 3}, {"arrows": "to", "from": "exp\u0027", "to": 5}, {"arrows": "to", "from": "addop", "to": 6}, {"arrows": "to", "from": 3, "to": 8}, {"arrows": "to", "from": 3, "to": 10}, {"arrows": "to", "from": 8, "to": 11}, {"arrows": "to", "from": 8, "to": 13}, {"arrows": "to", "from": 8, "to": 14}, {"arrows": "to", "from": 13, "to": 16}, {"arrows": "to", "from": 13, "to": 18}, {"arrows": "to", "from": 16, "to": 20}, {"arrows": "to", "from": 16, "to": 22}, {"arrows": "to", "from": 20, "to": 23}, {"arrows": "to", "from": 20, "to": 25}, {"arrows": "to", "from": 20, "to": 26}, {"arrows": "to", "from": 25, "to": 28}, {"arrows": "to", "from": 25, "to": 30}, {"arrows": "to", "from": 28, "to": 32}, {"arrows": "to", "from": 28, "to": 34}, {"arrows": "to", "from": 32, "to": 35}, {"arrows": "to", "from": 10, "to": 36}, {"arrows": "to", "from": 5, "to": 38}, {"arrows": "to", "from": 5, "to": 40}, {"arrows": "to", "from": 5, "to": 42}, {"arrows": "to", "from": 38, "to": 43}, {"arrows": "to", "from": 40, "to": 45}, {"arrows": "to", "from": 40, "to": 47}, {"arrows": "to", "from": 45, "to": 48}, {"arrows": "to", "from": 22, "to": "mullop"}, {"arrows": "to", "from": 22, "to": 50}, {"arrows": "to", "from": 22, "to": 52}, {"arrows": "to", "from": "mullop", "to": 53}, {"arrows": "to", "from": 50, "to": 54}, {"arrows": "to", "from": 34, "to": 55}, {"arrows": "to", "from": 18, "to": 56}, {"arrows": "to", "from": 47, "to": 57}, {"arrows": "to", "from": 30, "to": 59}, {"arrows": "to", "from": 30, "to": 61}, {"arrows": "to", "from": 30, "to": 63}, {"arrows": "to", "from": 59, "to": 64}, {"arrows": "to", "from": 61, "to": 66}, {"arrows": "to", "from": 61, "to": 68}, {"arrows": "to", "from": 66, "to": 69}, {"arrows": "to", "from": 52, "to": 70}, {"arrows": "to", "from": 42, "to": 71}, {"arrows": "to", "from": 68, "to": 72}, {"arrows": "to", "from": 63, "to": 74}, {"arrows": "to", "from": 63, "to": 76}, {"arrows": "to", "from": 63, "to": 78}, {"arrows": "to", "from": 74, "to": 79}, {"arrows": "to", "from": 76, "to": 81}, {"arrows": "to", "from": 76, "to": 83}, {"arrows": "to", "from": 81, "to": 84}, {"arrows": "to", "from": 83, "to": 85}, {"arrows": "to", "from": 78, "to": 86}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>

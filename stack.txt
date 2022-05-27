@@ -1,0 +1,59 @@
+
+
+Validate String => 7+ (  ( 3 + 4 * 5  )  + 8 ) - 9
+                                                      Buffer                                                        Stack                                                     Action 
+$ Number - ) Number + ) Number * Number + Number ( ( + Number                                                        exp $                                 T[exp][Number] = exp->term exp' 
+$ Number - ) Number + ) Number * Number + Number ( ( + Number                                                  term exp' $                            T[term][Number] = term->factor term' 
+$ Number - ) Number + ) Number * Number + Number ( ( + Number                                          factor term' exp' $                              T[factor][Number] = factor->Number 
+$ Number - ) Number + ) Number * Number + Number ( ( + Number                                          Number term' exp' $                                      Matched:Number ,pop[Number]
+      $ Number - ) Number + ) Number * Number + Number ( ( +                                                 term' exp' $                                          T[term'][+] = term'-># 
+      $ Number - ) Number + ) Number * Number + Number ( ( +                                                       exp' $                              T[exp'][+] = exp'->addop term exp' 
+      $ Number - ) Number + ) Number * Number + Number ( ( +                                            addop term exp' $                                          T[addop][+] = addop->+ 
+      $ Number - ) Number + ) Number * Number + Number ( ( +                                                + term exp' $                                                Matched:+ ,pop[+]
+        $ Number - ) Number + ) Number * Number + Number ( (                                                  term exp' $                                 T[term][(] = term->factor term' 
+        $ Number - ) Number + ) Number * Number + Number ( (                                          factor term' exp' $                                  T[factor][(] = factor->( exp ) 
+        $ Number - ) Number + ) Number * Number + Number ( (                                         ( exp ) term' exp' $                                                Matched:( ,pop[(]
+          $ Number - ) Number + ) Number * Number + Number (                                           exp ) term' exp' $                                      T[exp][(] = exp->term exp' 
+          $ Number - ) Number + ) Number * Number + Number (                                     term exp' ) term' exp' $                                 T[term][(] = term->factor term' 
+          $ Number - ) Number + ) Number * Number + Number (                             factor term' exp' ) term' exp' $                                  T[factor][(] = factor->( exp ) 
+          $ Number - ) Number + ) Number * Number + Number (                            ( exp ) term' exp' ) term' exp' $                                                Matched:( ,pop[(]
+            $ Number - ) Number + ) Number * Number + Number                              exp ) term' exp' ) term' exp' $                                 T[exp][Number] = exp->term exp' 
+            $ Number - ) Number + ) Number * Number + Number                        term exp' ) term' exp' ) term' exp' $                            T[term][Number] = term->factor term' 
+            $ Number - ) Number + ) Number * Number + Number                factor term' exp' ) term' exp' ) term' exp' $                              T[factor][Number] = factor->Number 
+            $ Number - ) Number + ) Number * Number + Number                Number term' exp' ) term' exp' ) term' exp' $                                      Matched:Number ,pop[Number]
+                   $ Number - ) Number + ) Number * Number +                       term' exp' ) term' exp' ) term' exp' $                                          T[term'][+] = term'-># 
+                   $ Number - ) Number + ) Number * Number +                             exp' ) term' exp' ) term' exp' $                              T[exp'][+] = exp'->addop term exp' 
+                   $ Number - ) Number + ) Number * Number +                  addop term exp' ) term' exp' ) term' exp' $                                          T[addop][+] = addop->+ 
+                   $ Number - ) Number + ) Number * Number +                      + term exp' ) term' exp' ) term' exp' $                                                Matched:+ ,pop[+]
+                     $ Number - ) Number + ) Number * Number                        term exp' ) term' exp' ) term' exp' $                            T[term][Number] = term->factor term' 
+                     $ Number - ) Number + ) Number * Number                factor term' exp' ) term' exp' ) term' exp' $                              T[factor][Number] = factor->Number 
+                     $ Number - ) Number + ) Number * Number                Number term' exp' ) term' exp' ) term' exp' $                                      Matched:Number ,pop[Number]
+                            $ Number - ) Number + ) Number *                       term' exp' ) term' exp' ) term' exp' $                        T[term'][*] = term'->mullop factor term' 
+                            $ Number - ) Number + ) Number *         mullop factor term' exp' ) term' exp' ) term' exp' $                                        T[mullop][*] = mullop->* 
+                            $ Number - ) Number + ) Number *              * factor term' exp' ) term' exp' ) term' exp' $                                                Matched:* ,pop[*]
+                              $ Number - ) Number + ) Number                factor term' exp' ) term' exp' ) term' exp' $                              T[factor][Number] = factor->Number 
+                              $ Number - ) Number + ) Number                Number term' exp' ) term' exp' ) term' exp' $                                      Matched:Number ,pop[Number]
+                                     $ Number - ) Number + )                       term' exp' ) term' exp' ) term' exp' $                                          T[term'][)] = term'-># 
+                                     $ Number - ) Number + )                             exp' ) term' exp' ) term' exp' $                                            T[exp'][)] = exp'-># 
+                                     $ Number - ) Number + )                                  ) term' exp' ) term' exp' $                                                Matched:) ,pop[)]
+                                       $ Number - ) Number +                                    term' exp' ) term' exp' $                                          T[term'][+] = term'-># 
+                                       $ Number - ) Number +                                          exp' ) term' exp' $                              T[exp'][+] = exp'->addop term exp' 
+                                       $ Number - ) Number +                               addop term exp' ) term' exp' $                                          T[addop][+] = addop->+ 
+                                       $ Number - ) Number +                                   + term exp' ) term' exp' $                                                Matched:+ ,pop[+]
+                                         $ Number - ) Number                                     term exp' ) term' exp' $                            T[term][Number] = term->factor term' 
+                                         $ Number - ) Number                             factor term' exp' ) term' exp' $                              T[factor][Number] = factor->Number 
+                                         $ Number - ) Number                             Number term' exp' ) term' exp' $                                      Matched:Number ,pop[Number]
+                                                $ Number - )                                    term' exp' ) term' exp' $                                          T[term'][)] = term'-># 
+                                                $ Number - )                                          exp' ) term' exp' $                                            T[exp'][)] = exp'-># 
+                                                $ Number - )                                               ) term' exp' $                                                Matched:) ,pop[)]
+                                                  $ Number -                                                 term' exp' $                                          T[term'][-] = term'-># 
+                                                  $ Number -                                                       exp' $                              T[exp'][-] = exp'->addop term exp' 
+                                                  $ Number -                                            addop term exp' $                                          T[addop][-] = addop->- 
+                                                  $ Number -                                                - term exp' $                                                Matched:- ,pop[-]
+                                                    $ Number                                                  term exp' $                            T[term][Number] = term->factor term' 
+                                                    $ Number                                          factor term' exp' $                              T[factor][Number] = factor->Number 
+                                                    $ Number                                          Number term' exp' $                                      Matched:Number ,pop[Number]
+                                                           $                                                 term' exp' $                                          T[term'][$] = term'-># 
+                                                           $                                                       exp' $                                            T[exp'][$] = exp'-># 
+                                                           $                                                            $                                                          Accepted
+Valid String!

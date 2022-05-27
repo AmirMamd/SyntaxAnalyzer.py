@@ -1,0 +1,9 @@
+
+Non-T      FIRST                              FOLLOW                              
+exp        {'Number', '(', 'Identifier'}      {'$', ')'}                         
+addop      {'+', '-'}                         {'Number', '(', 'Identifier'}      
+term       {'Number', '(', 'Identifier'}      {'+', '-', '$', ')'}               
+mullop     {'/', '*'}                         {'Number', '(', 'Identifier'}      
+factor     {'Number', '(', 'Identifier'}      {'*', ')', '-', '+', '/', '$'}     
+exp'       {'+', '-', '#'}                    {'$', ')'}                         
+term'      {'/', '#', '*'}                    {'+', '-', '$', ')'}               
